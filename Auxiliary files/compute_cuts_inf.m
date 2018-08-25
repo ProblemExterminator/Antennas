@@ -1,4 +1,4 @@
-function [ppsi,Field,vvr,pphir]= compute_cuts_inf(azi_grid,elv_grid,FF,dir,anth,antd)
+function [ppsi,Field,vvr,pphir]= compute_cuts_inf(azi_grid,elv_grid,FF,dir,anth,antd,ps)
 % SYNTAX: [psi,Field,vvr,pphir]= compute_cuts_inf(azi_grid,elv_grid,FF,dir,anth,antd)
 % SUMMARY: this function computes far field data in Cartesian cuts for INFINITE ground plane antennas (see ppt file for exact geometry)
 % INPUT ARGUMENT SEMANTICS
@@ -8,6 +8,7 @@ function [ppsi,Field,vvr,pphir]= compute_cuts_inf(azi_grid,elv_grid,FF,dir,anth,
 % dir: direction of const cut: can be either x,y,z
 % anth: antenna height (see ppt file)
 % antd: horizontal distance in cut plane (see ppt file)
+% ps: character switch indicating whether debugging plots will be displayed
 % OUTPUT ARGUMENT SEMANTICS
 % ppsi: value of angle in cut plane
 % Field: value of directivity in cut plane
@@ -52,9 +53,11 @@ switch dir
   
        end
              
-       figure;
-       subplot(2,1,1); plot(ppsi,pphir); title('azimuth vs \psi angle');
-       subplot(2,1,2); plot(ppsi,vvr); title('elevation vs \psi angle');
+       if (ps=='y')
+           figure;
+           subplot(2,1,1); plot(ppsi,pphir); title('azimuth vs \psi angle');
+           subplot(2,1,2); plot(ppsi,vvr); title('elevation vs \psi angle');
+       end
        
        Field= Field+distance_fix;
        
@@ -101,9 +104,11 @@ switch dir
   
        end 
          
-       figure;
-       subplot(2,1,1); plot(ppsi,pphir); title('azimuth vs \psi angle');
-       subplot(2,1,2); plot(ppsi,vvr); title('elevation vs \psi angle');
+       if (ps=='y')
+           figure;
+           subplot(2,1,1); plot(ppsi,pphir); title('azimuth vs \psi angle');
+           subplot(2,1,2); plot(ppsi,vvr); title('elevation vs \psi angle');
+       end       
        
        Field= Field+distance_fix;
        
@@ -131,9 +136,11 @@ switch dir
  
        Field= Field+distance_fix;
  
-       figure;
-       subplot(2,1,1); plot(ppsi,pphir); title('azimuth vs \psi angle');
-       subplot(2,1,2); plot(ppsi,vvr); title('elevation vs \psi angle');
+       if (ps=='y')
+           figure;
+           subplot(2,1,1); plot(ppsi,pphir); title('azimuth vs \psi angle');
+           subplot(2,1,2); plot(ppsi,vvr); title('elevation vs \psi angle');
+       end
        
     otherwise
       error('Cannot determine cut plane to plot! Aborting');
