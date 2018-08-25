@@ -1,5 +1,5 @@
-% this script compares the extracted cuts of compute_cuts_inf vs
-% patternElevation and patternAzimuth for the 3 primary planes
+% this script compares the extracted cuts of compute_cuts_inf vs patternElevation and 
+% patternAzimuth for the 3 primary planes and presents different types of plots
 close all;
 clear vars;
 
@@ -45,3 +45,25 @@ legend('cut-based','pattern','patternElevation','Location','Best');
 subplot(3,1,3); plot(ppsi3,Field3); hold on; plot(azi_a,Fa,'r'); hold on; plot(azi_a,Fb,'g');
 title('Azimuth pattern for elv=0'); set(gca,'xlim',[-180 180],'xtick',[-180:30:180]);
 legend('cut-based','pattern','patternAzimuth','Location','Best');
+
+figure;
+subplot(1,3,1);
+P1= polarpattern(ppsi1,Field1,elv1,F1,0:2:180,F2);
+P1.AngleResolution=30; P1.DrawGridToOrigin= true; P1.LineWidth=2; P1.GridWidth=1.5;
+P1.TitleTop= 'Elevation pattern for phi=90';
+
+legend('cut-based','pattern','patternElevation','Location','Best');
+
+subplot(1,3,2);
+P2= polarpattern(ppsi2,Field2,elv3,F3,0:2:180,F4);
+P2.AngleResolution=30; P2.DrawGridToOrigin= true; P2.LineWidth=2; P2.GridWidth=1.5;
+P2.TitleBottom= 'Elevation pattern for phi=0';
+legend('cut-based','pattern','patternElevation','Location','Best');
+
+subplot(1,3,3); 
+P3= polarpattern(ppsi3,Field3,azi_a,Fa,azi_a,Fb);
+P3.AngleResolution=30; P3.DrawGridToOrigin= true; P3.LineWidth=2; P3.GridWidth=1.5;
+P3.TitleTop= 'Azimuth pattern for elv=0';
+legend('cut-based','pattern','patternElevation','Location','Best');
+
+
