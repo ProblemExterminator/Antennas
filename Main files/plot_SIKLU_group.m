@@ -37,25 +37,47 @@ Trow_nosteer= struct('Des', {{'all rows full','bottom+top 6 spread, mid 5 spread
 %% single row: no steering, all cases in single figure
 legend_index= exact_cases(Des,Srow_nosteer.Des);
 
+num_inst= length(legend_index);
+ppsi= cell(1,num_inst);
+Field= cell(1,num_inst);
+   
+for jj=1:num_inst
+   [ppsi{jj},Field{jj},~,~]= compute_cuts_inf(azi,elv,Output_pattern{jj},'y',10,80,'n')
+end
+   
+
 if length(legend_index) <= 7
    legend_index= plot_plane_phi0_gather(Des,Srow_nosteer.Des,azi,elv,Output_pattern,plot_increment);
    legend(Des(legend_index));
    set(gcf,'Name','Pattern for phi=0');
-
+      
    figure;
    legend_index= plot_plane_phi90_gather(Des,Srow_nosteer.Des,azi,elv,Output_pattern,plot_increment);
    legend(Des(legend_index));
    set(gcf,'Name','Pattern for phi=90');
+    
+   figure;   
+   for jj=1:num_inst
+      polarpattern(ppsi{jj},Field{jj});       
+   end
+
+   legend(Des(legend_index));
+   set(gcf,'Name','Pattern on ground level');   
 end
 
 
 % single row: no steering, each case in separate subplot
-case_ind= legend_index( string(Des(legend_index)) ~= 'top full' );   % take all cases except for 'top full'
+%case_ind= legend_index( string(Des(legend_index)) ~= 'top full' );   % take all cases except for 'top full'
+case_ind= legend_index;
 plot_plane_phi0_subplot(Des,case_ind,azi,elv,Output_pattern,plot_increment);
 set(gcf,'Name','Pattern for phi=0');
 
 plot_plane_phi90_subplot(Des,case_ind,azi,elv,Output_pattern,plot_increment);
 set(gcf,'Name','Pattern for phi=90');
+
+   
+% plot on custom plane
+plot_custom_plane(Des,legend_index,ppsi,Field);
 
 %% double row: no steering, gather all cases (if less than 8)
 legend_index= exact_cases(Des,Drow_nosteer.Des);
@@ -314,3 +336,36 @@ end
 
 
 end
+
+
+function []= plot_custom_plane(Output_Des,case_ind,ppsi,Field)
+
+% case_ind is typically equal to legend_index, unless we want to exclude some cases
+subp_index= 1;
+M= 2;
+num_inst= length(case_ind);
+legend_text= Output_Des(case_ind);
+
+for indf=1:ceil(num_inst/M^2)
+   figure;
+   
+   for ii=0:M-1
+      for jj= M-1:-1:0
+         if subp_index<= num_inst
+            h=subplot('Position',[(ii+0.1)/M (jj+0.1)/M 0.9/M 0.9/M]);
+            P=polarpattern(h,ppsi{subp_index},Field{subp_index});
+
+            P.AngleResolution=30; P.DrawGridToOrigin=true; P.LineWidth=2; P.GridWidth=1.5; P.FontSize=11;                                       
+            P.TitleTop= sprintf('Inst %d: %s',case_ind(subp_index),legend_text{subp_index});
+            P.MagnitudeLimBounds= [-60 inf];
+            subp_index= subp_index+1;
+         end
+      end
+   end   
+   
+   set(gcf,'Name','Pattern for custom plane');
+end
+
+
+end
+

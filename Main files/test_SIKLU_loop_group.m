@@ -148,9 +148,9 @@ Drow_steer.Phase= { [mod(90*(0:10),360) zeros(1,10) mod(90*(0:10),360)], ...  % 
                     };
                     
                 
-Amplitude_cell= [Srow_steer.Amp Drow_steer.Amp];   % Drow_nosteer.Amp Trow_nosteer.Amp];          
-Phase_cell= [Srow_steer.Phase Drow_steer.Phase];   % Drow_nosteer.Phase Trow_nosteer.Phase];
-Description= [Srow_steer.Des Drow_steer.Des];    % Drow_nosteer.Des Trow_nosteer.Des];
+Amplitude_cell= [Srow_nosteer.Amp Drow_nosteer.Amp];   % Drow_nosteer.Amp Trow_nosteer.Amp];          
+Phase_cell= [Srow_nosteer.Phase Drow_nosteer.Phase];   % Drow_nosteer.Phase Trow_nosteer.Phase];
+Description= [Srow_nosteer.Des Drow_nosteer.Des];    % Drow_nosteer.Des Trow_nosteer.Des];
 
 
 assert( length(Amplitude_cell) == length(Phase_cell) );
